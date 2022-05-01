@@ -1,5 +1,5 @@
 import os
-from tkinter import Tk,Button,Label,messagebox,simpledialog,Scrollbar,RIGHT,Y,YView,Menu,OptionMenu,ttk,PhotoImage
+from tkinter import Tk,Button,Label,messagebox,simpledialog,Scrollbar,RIGHT,Y,YView,Menu,OptionMenu,ttk,PhotoImage,filedialog
 import urllib.request
 root = Tk()
 root.withdraw()
@@ -98,8 +98,7 @@ root.bind("<Button-3>", command)
 if os.path.exists('list.cmd') == False:
     with open('list.cmd','a') as pip:
         pip.write('@echo off\ntitle 所有模块\npip list\npause\nexit')
-
-def pip_install():
+def pip_install_network():
     py = simpledialog.askstring('提示','请输入模块名：')
     if (py == None) or (py == ''):
         return 
@@ -110,6 +109,24 @@ def pip_install():
         os.system('start pip install -U' + py)
     if a == 'no':
         os.system('start pip install ' + py)
+def pip_install_file():
+    install_path = filedialog.askopenfilename(title = "选择whl文件",filetypes = (("Python模块文件","*.whl"),("Python Zip 模块文件","*.zip")))
+    if install_path == '':
+        return
+    file_install_command = 'start pip install ' + str(install_path)
+    os.system(file_install_command)
+def pip_install():
+    iw = Tk()
+    iw.title('安装模块选项')
+    iw.geometry('600x300')
+    iw.config(bg='#66ccff')
+    iw.resizable(False,False)
+    title = Label(iw,text="安装模块选项",font=("微软雅黑 Light",40),bg='#66ccff')
+    title.pack()
+    file = Button(iw,text="安装whl",font=("微软雅黑 Light",25),command=pip_install_file,width=17,height=1,bg='#ffffff',bd=0)
+    network = Button(iw,text="安装网络上的模块",font=("微软雅黑 Light",25),command=pip_install_network,width=17,height=1,bg='#ffffff',bd=0)
+    file.pack()
+    network.pack()
 def pip_uninstall():
     unpy = simpledialog.askstring('提示','请输入模块名：')
     if unpy != None:
