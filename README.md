@@ -15,3 +15,5 @@ pip的GUI版本
     2、GUI部分更改
     3、判断有无Wifi。
     4、不需要第三方模块BeautifulSoup。
+2.6新更新：
+    1、可以手动更新。
